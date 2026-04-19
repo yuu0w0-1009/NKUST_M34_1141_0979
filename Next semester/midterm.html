@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome file</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="📚-python-tkinter-課程與作業程式碼總整理">📚 Python Tkinter 課程與作業程式碼總整理</h1>
+<h2 id="一、-基礎視窗與排版-對應-ch01、ch02-3">一、 基礎視窗與排版 (對應 CH01、CH02-3)</h2>
+<p>建立所有的 GUI 程式，第一步都是建立主視窗，接著利用排版系統將元件放上去。作業中的九宮格、計算機都會大量用到 <code>grid()</code>。</p>
+<h3 id="建立基本視窗">1. 建立基本視窗</h3>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token keyword">from</span> tkinter <span class="token keyword">import</span> <span class="token operator">*</span>
+
+  
+
+root <span class="token operator">=</span> Tk<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 建立主視窗</span>
+
+root<span class="token punctuation">.</span>title<span class="token punctuation">(</span><span class="token string">"我的視窗"</span><span class="token punctuation">)</span> <span class="token comment"># 設定視窗標題</span>
+
+<span class="token comment"># 設定大小與位置："寬度x高度+水平座標+垂直座標"</span>
+
+root<span class="token punctuation">.</span>geometry<span class="token punctuation">(</span><span class="token string">"450x300+0+0"</span><span class="token punctuation">)</span>
+
+root<span class="token punctuation">.</span>mainloop<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 啟動事件循環 (必須放在程式最後一行)</span>
+
+</code></pre>
+<h3 id="三大排版方式">2. 三大排版方式</h3>
+<ul>
+<li>
+<p><strong><code>pack()</code></strong>: 依照上下左右方向依序擺放 (適合簡單排版)</p>
+</li>
+<li>
+<p><strong><code>place()</code></strong>: 絕對座標擺放 (作業1 帕斯卡三角形可能會用到，用來微調位置變成正三角形)</p>
+</li>
+<li>
+<p><strong><code>grid()</code></strong>: 網格排版 (作業2 計算機、作業3~5 九宮格與配對遊戲 <strong>必用</strong>)</p>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token comment"># --- pack 用法 ---</span>
+
+Label<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"Pack"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side<span class="token operator">=</span>BOTTOM<span class="token punctuation">,</span> padx<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> pady<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment"># 靠下，設定外邊距</span>
+
+  
+
+<span class="token comment"># --- place 用法 ---</span>
+
+Label<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"Place"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>place<span class="token punctuation">(</span>x<span class="token operator">=</span><span class="token number">80</span><span class="token punctuation">,</span> y<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token comment"># 絕對座標 x, y</span>
+
+  
+
+<span class="token comment"># --- grid 用法 (作業最常用) ---</span>
+
+<span class="token comment"># row 控制列，column 控制行</span>
+
+Button<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"7"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+Button<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"8"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+</code></pre>
+<h3 id="frame-容器與自適應大小">3. Frame 容器與自適應大小</h3>
+<p>當作業畫面變得複雜（例如計算機上方顯示區、下方按鍵區），可以使用 <code>Frame</code> 來分區。</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token comment"># 建立一個 Frame</span>
+
+f <span class="token operator">=</span> Frame<span class="token punctuation">(</span>root<span class="token punctuation">,</span> height<span class="token operator">=</span><span class="token number">150</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">150</span><span class="token punctuation">,</span> bg<span class="token operator">=</span><span class="token string">"red"</span><span class="token punctuation">)</span>
+
+f<span class="token punctuation">.</span>pack_propagate<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment"># 讓 Frame 不會因為裡面的元件而自動縮小 (維持固定大小)</span>
+
+f<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+  
+
+<span class="token comment"># 將按鈕塞滿整個 Frame (fill=BOTH, expand=1)</span>
+
+b <span class="token operator">=</span> Button<span class="token punctuation">(</span>f<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"按鈕"</span><span class="token punctuation">)</span>
+
+b<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>expand<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> fill<span class="token operator">=</span>BOTH<span class="token punctuation">)</span>
+
+</code></pre>
+<hr>
+<h2 id="二、-核心元件-label-與-button-對應-ch02、ch03">二、 核心元件 Label 與 Button (對應 CH02、CH03)</h2>
+<h3 id="label-標籤：用來顯示文字或圖片">1. Label (標籤：用來顯示文字或圖片)</h3>
+<p>作業1 (帕斯卡三角形)、作業2 (計算機顯示結果) 會頻繁使用。</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token comment"># 基本建立</span>
+
+lbl <span class="token operator">=</span> Label<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"Hello"</span><span class="token punctuation">,</span> bg<span class="token operator">=</span><span class="token string">"yellow"</span><span class="token punctuation">,</span> fg<span class="token operator">=</span><span class="token string">"black"</span><span class="token punctuation">)</span>
+
+lbl<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  
+
+<span class="token comment"># 顯示內建圖示與文字位置</span>
+
+Label<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"警告"</span><span class="token punctuation">,</span> compound<span class="token operator">=</span><span class="token string">"bottom"</span><span class="token punctuation">,</span> bitmap<span class="token operator">=</span><span class="token string">"warning"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  
+
+<span class="token comment"># 動態更改 Label 的文字或顏色 (作業必備)</span>
+
+lbl<span class="token punctuation">.</span>config<span class="token punctuation">(</span>text<span class="token operator">=</span><span class="token string">"新的計算結果"</span><span class="token punctuation">,</span> bg<span class="token operator">=</span><span class="token string">"red"</span><span class="token punctuation">)</span>
+
+</code></pre>
+<h3 id="button-按鈕：用來點擊互動">2. Button (按鈕：用來點擊互動)</h3>
+<p>作業2~5 遊戲的核心元件。</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token comment"># 設定按鈕樣式：relief (FLAT, GROOVE, RAISED, RIDGE, SOLID, SUNKEN)</span>
+
+<span class="token comment"># 大小：width (字元寬), height (字元高)</span>
+
+btn <span class="token operator">=</span> Button<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"Click"</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> height<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> relief<span class="token operator">=</span>RAISED<span class="token punctuation">)</span>
+
+btn<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+<hr>
+<h2 id="三、-事件綁定與回呼函式-callback-對應-ch02-2">三、 事件綁定與回呼函式 Callback (對應 CH02-2)</h2>
+<p>這是所有作業（計算機、九宮格遊戲）的<strong>靈魂核心</strong>。當按鈕被按下時，程式需要知道「你按下了哪一個數字或哪一格」。</p>
+<h3 id="基礎事件綁定-bind">1. 基礎事件綁定 (Bind)</h3>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token keyword">def</span>  <span class="token function">hide_me</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+<span class="token comment"># 點擊後隱藏被點擊的元件 (作業4、5 可能會用到)</span>
+
+event<span class="token punctuation">.</span>widget<span class="token punctuation">.</span>grid_forget<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  
+
+btn <span class="token operator">=</span> Button<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">"隱藏我"</span><span class="token punctuation">)</span>
+
+btn<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"&lt;Button-1&gt;"</span><span class="token punctuation">,</span> hide_me<span class="token punctuation">)</span> <span class="token comment"># &lt;Button-1&gt; 代表滑鼠左鍵</span>
+
+</code></pre>
+<h3 id="進階命令綁定與-lambda-🌟-迴圈建立按鈕必備">2. 進階命令綁定與 Lambda (🌟 迴圈建立按鈕必備)</h3>
+<p>在利用 <code>for</code> 迴圈產生九宮格或計算機按鈕時，如果直接寫 <code>command=func(x)</code> 會在建立時就立刻執行。<strong>必須使用 <code>lambda</code></strong> 來延遲執行並傳遞參數。</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token keyword">def</span>  <span class="token function">click_btn</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"你點擊了第 {r} 列，第 {c} 行"</span><span class="token punctuation">)</span>
+
+  
+
+<span class="token comment"># 利用迴圈產生 3x3 按鈕陣列 (作業2、3、4、5的基礎寫法)</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span>  <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+r <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>i <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token comment"># 計算列 (0, 1, 2)</span>
+
+c <span class="token operator">=</span> i <span class="token operator">%</span> <span class="token number">3</span>  <span class="token comment"># 計算行 (0, 1, 2)</span>
+
+<span class="token comment"># 🌟 重點：使用 lambda 捕捉當下的 r 與 c 值</span>
+
+Button<span class="token punctuation">(</span>root<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token builtin">str</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> height<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span>
+
+command<span class="token operator">=</span><span class="token keyword">lambda</span>  r<span class="token operator">=</span>r<span class="token punctuation">,</span> c<span class="token operator">=</span>c<span class="token punctuation">:</span> click_btn<span class="token punctuation">(</span>r<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span>r<span class="token punctuation">,</span> column<span class="token operator">=</span>c<span class="token punctuation">)</span>
+
+</code></pre>
+<hr>
+<h2 id="四、-作業實戰技巧與動態變化提示">四、 作業實戰技巧與動態變化提示</h2>
+<h3 id="技巧-1：全域變數狀態管理-global-variables">技巧 1：全域變數狀態管理 (Global Variables)</h3>
+<p>在圈圈叉叉 (作3, 作4) 或配對遊戲 (作5) 中，你需要記錄「現在是誰的回合」或「目前翻開了什麼」。</p>
+<pre class=" language-python"><code class="prism  language-python">
+player_turn <span class="token operator">=</span> <span class="token number">1</span>  <span class="token comment"># 1代表玩家一(O)，2代表玩家二(X)</span>
+
+click_count <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment"># 記錄點擊次數</span>
+
+  
+
+<span class="token keyword">def</span>  <span class="token function">button_click</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+<span class="token keyword">global</span> player_turn<span class="token punctuation">,</span> click_count <span class="token comment"># 宣告使用全域變數</span>
+
+<span class="token keyword">if</span> player_turn <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+
+<span class="token comment"># 修改按鈕文字為 O</span>
+
+buttons<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">[</span>c<span class="token punctuation">]</span><span class="token punctuation">.</span>config<span class="token punctuation">(</span>text<span class="token operator">=</span><span class="token string">"O"</span><span class="token punctuation">)</span>
+
+player_turn <span class="token operator">=</span> <span class="token number">2</span>
+
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+
+buttons<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">[</span>c<span class="token punctuation">]</span><span class="token punctuation">.</span>config<span class="token punctuation">(</span>text<span class="token operator">=</span><span class="token string">"X"</span><span class="token punctuation">)</span>
+
+player_turn <span class="token operator">=</span> <span class="token number">1</span>
+
+</code></pre>
+<h3 id="技巧-2：按鈕狀態控制-state---作業5-配對遊戲">技巧 2：按鈕狀態控制 (State) -&gt; 作業5 (配對遊戲)</h3>
+<p>當兩個數字配對成功時，你需要讓按鈕「失效」(不能再點擊)。</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token comment"># 讓按鈕無法被點擊 (變灰)</span>
+
+btn<span class="token punctuation">.</span>config<span class="token punctuation">(</span>state<span class="token operator">=</span><span class="token string">"disabled"</span><span class="token punctuation">)</span>
+
+  
+
+<span class="token comment"># 恢復按鈕可以被點擊</span>
+
+btn<span class="token punctuation">.</span>config<span class="token punctuation">(</span>state<span class="token operator">=</span><span class="token string">"normal"</span><span class="token punctuation">)</span>
+
+</code></pre>
+<h3 id="技巧-3：清除畫面重置-grid_forget--destroy---作業4-進階九宮格">技巧 3：清除畫面重置 (Grid_forget / Destroy) -&gt; 作業4 (進階九宮格)</h3>
+<p>按下「Restart」或「下一關擴大版面」時，你需要清空原本的畫面。</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token comment"># 方法一：隱藏元件 (CH02教的)</span>
+
+btn<span class="token punctuation">.</span>grid_forget<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  
+
+<span class="token comment"># 方法二：直接摧毀 Frame 裡面的所有元件並重新產生 (常見實戰作法)</span>
+
+<span class="token keyword">for</span> widget <span class="token keyword">in</span> root<span class="token punctuation">.</span>winfo_children<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+widget<span class="token punctuation">.</span>destroy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 接著再重新呼叫建立版面的 function</span>
+
+</code></pre>
+<h3 id="技巧-4：帕斯卡三角形算法提示---作業1">技巧 4：帕斯卡三角形算法提示 -&gt; 作業1</h3>
+<p>要算出 <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C(i, j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.07153em;">C</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathnormal" style="margin-right: 0.05724em;">j</span><span class="mclose">)</span></span></span></span></span> 的值，需要用到階乘。可以使用 Python 內建函式庫：</p>
+<pre class=" language-python"><code class="prism  language-python">
+<span class="token keyword">import</span> math
+
+<span class="token keyword">def</span>  <span class="token function">pascal_value</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+<span class="token comment"># C(i, j) = i! / (j! * (i-j)!)</span>
+
+<span class="token keyword">return</span> math<span class="token punctuation">.</span>factorial<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">//</span> <span class="token punctuation">(</span>math<span class="token punctuation">.</span>factorial<span class="token punctuation">(</span>j<span class="token punctuation">)</span> <span class="token operator">*</span> math<span class="token punctuation">.</span>factorial<span class="token punctuation">(</span>i <span class="token operator">-</span> j<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p><em>排版建議：利用迴圈建立 <code>Label</code>，並使用 <code>pack()</code> 或 <code>grid()</code> 配合空白字元，或者直接用 <code>place()</code> 計算水平偏移量來達成正三角形。</em></p>
+</div>
+</body>
+
+</html>
