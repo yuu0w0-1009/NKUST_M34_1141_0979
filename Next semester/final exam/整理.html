@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Tkinter 視窗程式設計完整講義與語法速查表</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --code-bg: #2d3748;
+            --code-text: #f7fafc;
+            --border-color: #e2e8f0;
+            --table-header: #edf2f7;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 12px;
+            background: #f0f7fd;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        p {
+            margin-bottom: 16px;
+        }
+        
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 6px;
+        }
+        
+        code {
+            background-color: #edf2f7;
+            color: #e53e3e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
+            font-weight: bold;
+        }
+        
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.95rem;
+            border-left: 4px solid #48bb78;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .comment {
+            color: #718096;
+            font-style: italic;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--table-header);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        
+        .homework-box {
+            background-color: #fffaf0;
+            border: 1px solid #feebc8;
+            border-left: 4px solid #dd6b20;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .homework-box h4 {
+            color: #dd6b20;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .special-box {
+            background-color: #fcf1ff;
+            border: 1px solid #e9d8f4;
+            border-left: 4px solid #9f7aea;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .special-box h4 {
+            color: #6b46c1;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .tip {
+            background-color: #f0fff4;
+            border: 1px solid #c6f6d5;
+            border-left: 4px solid #38a169;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Python Tkinter 視窗程式設計</h1>
+    <div class="subtitle">完整課程講義、精選範例與作業速查指引</div>
+
+    <h2>CH01. 基礎視窗創建與三大排版組合 (pack, place, grid)</h2>
+    <p>本章節介紹如何初始化一個空白視窗，並透過 Python 的 <code>for</code> 迴圈動態建立多個組件，最後深入比較 Tkinter 的三種元件定位擺放方法。</p>
+    
+    <h3>1.1 創建最基本的空白視窗</h3>
+    <p>這是所有 Tkinter 視窗程式的起點，包含載入函式庫、建立主物件、設定標題與啟動無窮主循環。</p>
+    <pre>from tkinter import * <span class="comment"># 載入 Tkinter 函式庫</span>
+root = Tk()                <span class="comment"># 建立一個視窗主物件</span>
+root.title("新視窗")       <span class="comment"># 設定視窗上方顯示的名稱</span>
+root.mainloop()            <span class="comment"># 讓視窗持續執行，監聽事件</span></pre>
+
+    <h3>1.2 設定視窗大小與螢幕出現位置</h3>
+    <p>語法格式：<code>root.geometry("長度x寬度+水平座標+垂直座標")</code></p>
+    <div class="tip">注意：長寬與座標中間是用小寫英文字母 <code>x</code> 連接，而非乘號。座標 <code>+0+0</code> 代表螢幕的左上角。</div>
+    <pre>from tkinter import *
+root = Tk()
+root.title("新視窗")
+<span class="comment"># 設定視窗大小為 450x300 像素，並強制出現在螢幕左上方 (0,0) 位置</span>
+root.geometry("450x300+0+0")
+root.mainloop()</pre>
+
+    <h3>1.3 三大排版定位方式詳細解析</h3>
+    
+    <h4>A. pack() 排版方法 — 自動依序順流排列</h4>
+    <p>適合簡單的線性排版（上到下或左到右）。常用參數如下：</p>
+    <ul>
+        <li><code>side</code>：設定組件對齊方向。可選值有 <code>TOP</code> (預設)、<code>BOTTOM</code>、<code>LEFT</code>、<code>RIGHT</code>。</li>
+        <li><code>padx</code> / <code>pady</code>：設定組件與相鄰物件的「外部水平/垂直間距」單位。</li>
+    </ul>
+    <pre><span class="comment"># 範例一：透過 for 迴圈與 pack 快速建立 5 個垂直排列的 Label</span>
+for i in range(5):
+    Label(root, text="pack" + str(i)).pack()
+
+<span class="comment"># 範例二：設定不同的方向對齊排列</span>
+loc = [RIGHT, BOTTOM, LEFT, TOP]
+for i in range(4):
+    Label(root, text="pack" + str(i)).pack(side=loc[i])
+
+<span class="comment"># 範例三：設定各種方向的內外顏色及間距</span>
+Label(root, text="pack1", bg="yellow").pack(side=LEFT, padx=0)
+Label(root, text="pack2", bg="green").pack(expand=0, side=LEFT, padx=10) <span class="comment"># 水平差 10 單位</span>
+Label(root, text="pack3", bg="red").pack(side=BOTTOM, padx=30)          <span class="comment"># 水平差 30 單位</span>
+Label(root, text="pack4", bg="white").pack(side=BOTTOM, pady=30)        <span class="comment"># 垂直差 30 單位</span></pre>
+
+    <h4>B. place() 排版方法 — 絕對座標精準定位</h4>
+    <p>適合固定視窗大小，且需要非常精確、不隨視窗縮放改變的位置設計。</p>
+    <pre><span class="comment"># 語法基礎</span>
+Label(root, text="Label1").place(x=0, y=0)
+
+<span class="comment"># 綜合範例：利用 for 迴圈每隔 80 像素橫向擺放一個標籤</span>
+root.geometry("400x300")
+for i in range(5):
+    Label(root, text="Label" + str(i)).place(x=80 * i)</pre>
+
+    <h4>C. grid() 排版方法 — 網格/表格矩陣排列</h4>
+    <p>如同 Excel 表格，將視窗劃分為列(row)與欄(column)。如果不指定橫列與直欄，預設會從 <code>row=0, column=0</code> 開始擺放。</p>
+    <pre>lb0 = Label(root, text="Label0")
+lb1 = Label(root, text="Label1")
+lb2 = Label(root, text="Label2")
+
+lb0.grid()                   <span class="comment"># 預設位置：row=0, column=0</span>
+lb1.grid(row=0, column=1)    <span class="comment"># 右側：row=0, column=1</span>
+lb2.grid(row=1, column=0)    <span class="comment"># 下方：row=1, column=0</span></pre>
+
+    <div class="homework-box">
+        <h4>課堂作業練習：CH01_網格排列練習</h4>
+        <p>請嘗試使用 <code>grid()</code> 網格排版方法建立 6 個 Label 元件，並按照以下矩陣結構進行精準擺放：</p>
+        <p><code>[Label0] [Label1]</code><br><code>[Label2] [Label3]</code><br><code>[Label4] [Label5]</code></p>
+        <p><strong>提示：</strong><code>Label(root, text="Label0").grid(row=0, column=0)</code>，依此類推，利用雙層或單層迴圈與算術運算快速達成。</p>
+    </div>
+
+    <h2>CH02. Button 按鈕元件外觀美化與行為事件控制</h2>
+    <p>按鈕是用戶互動的核心。本章節介紹如何建立按鈕、美化按鈕樣式、觸發特定事件函式，以及如何讓按鈕動態隱藏消失。</p>
+    
+    <h3>2.1 按鈕基本創建語法</h3>
+    <pre><span class="comment"># 方式一：先宣告變數再封裝（便於之後用變數控制按鈕屬性）</span>
+b1 = Button(root, text="click!")
+b1.pack()
+
+<span class="comment"># 方式二：直接宣告並一行完成封裝（適合單純點擊不需再動態變更的按鈕）</span>
+Button(root, text="click!").pack()</pre>
+
+    <h3>2.2 美化參數速查 (常用外框、圖示、大小、顏色)</h3>
+    <table>
+        <tr>
+            <th style="width: 25%;">美化屬性</th>
+            <th style="width: 35%;">功能指令語法</th>
+            <th style="width: 40%;">可用參數值說明</th>
+        </tr>
+        <tr>
+            <td><b>外框立體效果<br><code>relief</code></b></td>
+            <td><code>Button(root, text="OK", relief=FLAT)</code></td>
+            <td><code>FLAT</code> (平坦), <code>RAISED</code> (凸起-預設), <code>SUNKEN</code> (凹陷), <code>GROOVE</code> (溝槽), <code>RIDGE</code> (脊狀), <code>SOLID</code> (單線框)</td>
+        </tr>
+        <tr>
+            <td><b>按鈕大小<br><code>width / height</code></b></td>
+            <td><code>Button(root, text="botton", width=10, height=2)</code></td>
+            <td>數值單位。注意：對文字按鈕而言，單位是<b>字元數</b>而非像素點。</td>
+        </tr>
+        <tr>
+            <td><b>色彩設定<br><code>bg / fg</code></b></td>
+            <td><code>Button(root, bg="black", fg="white")</code></td>
+            <td><code>bg</code> 為按鈕背景色，<code>fg</code> 為文字前景顏色。支援英文單字或 <code>#RRGGBB</code> 十六進位色碼。</td>
+        </tr>
+        <tr>
+            <td><b>內建圖示標誌<br><code>bitmap</code></b></td>
+            <td><code>Button(root, bitmap="question")</code></td>
+            <td>常見系統圖示：<code>error</code>, <code>hourglass</code>, <code>info</code>, <code>questhead</code>, <code>question</code>, <code>warning</code>, <code>gray12</code>, <code>gray25</code>, <code>gray50</code>, <code>gray75</code></td>
+        </tr>
+        <tr>
+            <td><b>圖文並存方位<br><code>compound</code></b></td>
+            <td><code>Button(root, text="標題", compound="bottom", bitmap="error")</code></td>
+            <td>決定圖示相對於文字的位置。可選：<code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>center</code></td>
+        </tr>
+        <tr>
+            <td><b>文字顯示錨點<br><code>anchor</code></b></td>
+            <td><code>Button(root, text="文字", anchor="nw", width=10, height=4)</code></td>
+            <td>當按鈕空間大於文字時，決定文字靠哪邊。方位指令：<code>n</code>, <code>s</code>, <code>e</code>, <code>w</code>, <code>ne</code>, <code>nw</code>, <code>se</code>, <code>sw</code>, <code>center</code></td>
+        </tr>
+        <tr>
+            <td><b>邊框粗細<br><code>bd</code></b></td>
+            <td><code>Button(root, text="0", bd=3)</code></td>
+            <td>數值（像素）。<code>bd=0</code> 代表無邊框。</td>
+        </tr>
+        <tr>
+            <td><b>按鈕可用狀態<br><code>state</code></b></td>
+            <td><code>Button(root, text="按鈕", state="disabled")</code></td>
+            <td><code>normal</code> (正常可點擊狀態), <code>active</code> (當滑鼠懸停或點擊時的活躍狀態), <code>disabled</code> (變灰、無法點擊狀態)</td>
+        </tr>
+    </table>
+
+    <h3>2.3 透過按鈕觸發事件與變數動態顯示</h3>
+    <pre><span class="comment"># 1. 綁定基本無參數事件命令</span>
+def b1_function():
+    print("使用者按下了 YES!")
+
+Button(root, text="YES!", command=b1_function).pack(side="left")
+
+<span class="comment"># 2. 按鈕文字動態即時顯示 (使用 StringVar)</span>
+def changeText():
+    if b["text"] == "text":
+        v.set("change")        <span class="comment"># 變動字串變數設為 change</span>
+    else:
+        v.set("text")          <span class="comment"># 變動字串變數設為 text</span>
+
+v = StringVar()                <span class="comment"># 宣告一個 Tkinter 專用動態字串變數</span>
+b = Button(root, textvariable=v, command=changeText)
+v.set("text")                  <span class="comment"># 初始文字設為 text</span>
+b.pack()
+
+<span class="comment"># 3. 動態改變另一個按鈕的狀態 (config 方法應用)</span>
+e = StringVar()                <span class="comment"># 變動文字變數，用來即時連動按鈕2的文字</span>
+e.set("可按")                   <span class="comment"># 預設按鈕2顯示的文字為「可按」</span>
+count = 0                      <span class="comment"># 整數變數，當作狀態計數器（切換 0 或 1）</span>
+
+def click():
+    global count               <span class="comment"># 使用全域的 count 整數變數</span>
+    if count == 0:
+        Button2.config(state="disabled")  <span class="comment"># config可以用於動態修改元件的屬性</span>
+        e.set("不可按")
+        count += 1
+    else:
+        Button2.config(state="active")
+        e.set("可按")
+        count = 0
+
+<span class="comment"># 建立負責觸發狀態改變的控制按鈕</span>
+Button1 = Button(root, text="change", command=click)
+Button1.pack()
+
+<span class="comment"># 建立被動受控制狀態與文字的按鈕</span>
+Button2 = Button(root, textvariable=e)
+Button2.pack()</pre>
+
+    <h3>2.4 元件擦除與隱藏 (pack_forget / grid_forget)</h3>
+    <p>結合滑鼠按鍵點擊事件綁定 <code>bind</code>，可以使元件從畫面中徹底消失隱藏。</p>
+    <pre><span class="comment"># 元件點擊後立即自行消失</span>
+def hide_me(event):
+    event.widget.pack_forget() <span class="comment"># 如果是用 pack 排版，使用 pack_forget() 擦除</span>
+    <span class="comment"># event.widget.grid_forget() # 如果是用 grid 排版，則使用 grid_forget() </span>
+
+b1 = Button(root, text="點我消失")
+b1.bind("&lt;Button-1&gt;", hide_me) <span class="comment"># 綁定滑鼠左鍵點擊事件 (&lt;Button-1&gt;)</span>
+b1.pack()</pre>
+
+    <div class="homework-box">
+        <h4>課堂作業練習：CH02_按鈕文字方位循環移動</h4>
+        <p>設計一個大小設定為 <code>width=30, height=5</code> 的大按鈕，初始預設文字位置在右方（<code>anchor="e"</code>）。當使用者每點擊一次按鈕，按鈕內的文字就會按照順時針方位進行循環切換：</p>
+        <p><code>e → se → s → sw → w → nw → n → ne → center → 回到 e</code></p>
+        <p><strong>提示：</strong>在回呼函式中使用 <code>Button1.config(anchor=loc[count])</code> 進行即時修改。</p>
+    </div>
+
+    <h2>CH02-2. 進階回呼函式 (Callback Function) 與多變數傳參陷阱解決方案</h2>
+    <p>當我們希望按鈕點擊後觸發的函式能夠傳入參數（例如九宮格按鈕點擊時要傳入各自的座標值），直接寫 <code>command=b_function(1)</code> 會導致<b>視窗還沒開好，函式就立刻自動執行完畢</b>的重大錯誤。</p>
+    
+    <h3>3.1 使用 Lambda 運算式傳遞參數</h3>
+    <pre><span class="comment"># 正確的單一按鈕帶參數傳遞寫法</span>
+def b_function(myinput):
+    print("您輸入的是:", myinput)
+
+Button(root, text="YES!", command=lambda: b_function(1)).pack(side="left")
+Button(root, text="NO!", command=lambda: b_function(2)).pack(side="right")</pre>
+
+    <h3>3.2 迴圈中的多按鈕傳參「嚴重陷阱」與兩種正確解法</h3>
+    <div class="tip"><strong>經典錯誤：</strong>如果在 <code>for</code> 迴圈中直接使用 <code>command=lambda: b_function(myrow, mycol)</code>，因為變數閉包特性，無論你點擊哪一個按鈕，輸出結果全部都會是最後一圈的數值。</div>
+    
+    <pre><span class="comment"># 正確解法一：在 lambda 中使用區域預設變數攔截當前值 (最推薦，講義第11頁)</span>
+def b_function(r,c):
+    print(f"您按下了第 {r} 列，第 {c} 欄的按鈕")
+
+for b in range(9):
+    myrow = int(b / 3)
+    mycol = b % 3
+    <span class="comment"># 關鍵點：x=myrow, y=mycol 會在按鈕建立時將當前數值保存下來</span>
+    Button(root, text=b, command=lambda x=myrow, y=mycol: b_function(x, y)).grid(row=myrow, column=mycol)
+
+<span class="comment"># 正確解法二：使用 functools 的 partial 偏函式方法 (講義第12頁)</span>
+from functools import partial
+
+def b_function(r,c):
+    print(f"您按下了第 {r} 列，第 {c} 欄的按鈕")
+
+for b in range(9):
+    myrow = int(b / 3)
+    mycol = b % 3
+    Button(root, text=b, command=partial(b_function, myrow, mycol)).grid(row=myrow, column=mycol)</pre>
+
+    <h2>CH02-3. Frame 框架組件排版藝術與填滿縮放參數 (fill & expand)</h2>
+    <p><code>Frame</code>（框架組件）是一個矩形區域。它的最大作用是將視窗內部切割為不同的區塊，並將相關組件分組放入，是高階視覺化介面不可或缺的排版利器。</p>
+    
+    <h3>4.1 基本 Frame 劃分與元件嵌入</h3>
+    <pre>app = Tk()
+app.geometry("400x150")
+
+<span class="comment"># 建立一個橘色帶凹陷效果的左側控制框架</span>
+frame1 = Frame(app, bg="orange", bd=10, relief=SUNKEN)
+frame1.pack(side="left")
+<span class="comment"># 將按鈕放入 frame1 中，而不是放入主視窗 app </span>
+button1 = Button(frame1, text="控制1").pack(side="top")
+button2 = Button(frame1, text="控制2").pack(side="bottom")
+
+<span class="comment"># 建立一個右側格線排版的藍色資訊框架</span>
+frame2 = Frame(app, bg="blue")
+frame2.pack(side="right")
+button3 = Button(frame2, text="網格1").grid(row=0, column=0)
+button4 = Button(frame2, text="網格2").grid(row=0, column=1)</pre>
+
+    <h3>4.2 避免框架縮水與自動放大：pack_propagate、fill、expand</h3>
+    <ul>
+        <li><code>f.pack_propagate(0)</code>：<b>極度重要！</b>預設情況下，Frame 的大小會被內部放入的組件擠壓而自動變小（失去原本設定的 width/height 效果）。呼叫 <code>pack_propagate(0)</code> 即可強制關閉這個預設連動，維持 Frame 原本設定的大尺寸。</li>
+        <li><code>fill</code>：控制組件如何填滿分配給它的剩餘空間。可選 <code>X</code>（水平填滿）、<code>Y</code>（垂直填滿）、<code>BOTH</code>（水平與垂直皆全填滿）。</li>
+        <li><code>expand=1</code>：分配視窗多餘的空白放大空間給該元件。常與 <code>fill=BOTH</code> 搭配達到視窗大小改變時，組件跟著自動拉伸放大的效果。</li>
+    </ul>
+    <pre><span class="comment"># 經典應用範例：使按鈕完美填滿並隨著視窗無縫放大</span>
+Button(root, text='隨著視窗自動放大填滿的按鈕', bg='green').pack(expand=1, fill=BOTH)</pre>
+
+    <div class="homework-box">
+        <h4>高階綜合專題作業：CH02-3_九宮格按鈕走迷宮程式設計</h4>
+        <p>請結合 <code>Frame</code>、<code>grid()</code> 網格排版以及 <code>StringVar</code> 狀態追蹤，設計出一個如講義第18~20頁所示的經典「走迷宮遊戲」：</p>
+        <ul>
+            <li><b>上方迷宮區域：</b>使用 Text 或 Label 顯示迷宮地圖（包含目前位置 <code>@</code>、無法行走的牆壁 <code>#</code>、終點 <code>X</code>）。建議將地圖框架加上 <code>bd=5, relief=RAISED</code> 外框。</li>
+            <li><b>中間計數器：</b>即時顯示「行走步數：N」。</li>
+            <li><b>下方移動控制介面：</b>用一個獨立的 Frame 包裹 8 方向按鈕（NW, N, NE, W, E, SW, S, SE），預設該 Frame 邊界平時為<b>藍色</b>。</li>
+            <li><b>遊戲邏輯：</b>點選方向按鈕使 <code>@</code> 移動。如果使用者點選到牆壁或出界，下方的 Frame 邊界立刻動態變成<b>紅色</b>，且步數不增加；順利抵達終點時，介面外圍改為<b>綠色</b>，且所有按鈕變為 <code>disabled</code> 無法再移動。</li>
+        </ul>
+    </div>
+
+    <h2>CH03. Label 標籤組件多元應用與計時器 (Timer) 執行緒控制</h2>
+    <p>Label 主要用於展示靜態文字、格式化多行訊息或圖片。透過 <code>after()</code> 方法或 <code>threading.Timer</code>，可以輕易做出定時自動更新的跑馬燈或計時器系統。</p>
+    
+    <h3>5.1 字型格式化與多行訊息自動換行</h3>
+    <pre>label = Label(root, text="welcome to KUAS", bg="yellow", anchor="s", justify="left")
+<span class="comment"># 設定字型為 arial、大小 20 像素、斜體 (italic) 效果</span>
+<span class="comment"># 效果可用：normal, bold, italic, underline, overstrike</span>
+label["font"] = ("arial", 20, "italic")
+
+<span class="comment"># 多行長文字自動換行設定</span>
+Label(root, text="歡迎來到這門進階視窗程式設計課程", 
+      width=10, height=10, 
+      wraplength=60,       <span class="comment"># 設定每隔 60 個單位寬度自動強制換行</span>
+      justify="left",      <span class="comment"># 多行文字靠左對齊</span>
+      anchor="s"           <span class="comment"># 整塊文字區對齊標籤底部</span>
+).pack()</pre>
+
+    <h3>5.2 載入外部 GIF 圖片至標籤中</h3>
+    <div class="tip">注意：Tkinter 原生的 <code>PhotoImage</code> 在舊版本中主要支援 <code>.gif</code> 或 <code>.png</code> 格式。路徑字串中若含有反斜線，建議加 <code>r</code> 或改用正斜線。</div>
+    <pre>logo = PhotoImage(file="C:/KUAS.gif")            <span class="comment"># 載入圖片檔案</span>
+Label(root, image=logo).pack(side="right")       <span class="comment"># 將圖片塞入標籤並靠右排列</span>
+Label(root, text="校徽說明").pack(side="left")</pre>
+
+    <h3>5.3 兩種計時器 (Timer) 實現方式比較</h3>
+    
+    <h4>方法一：利用元件內建的 after() 方法 (非同步單執行緒，講義第8頁)</h4>
+    <pre>counter = 0
+def count():
+    global counter
+    counter += 1
+    label.config(text=str(counter))   <span class="comment"># 更新標籤文字</span>
+    label.after(1000, count)          <span class="comment"># 延遲 1000 毫秒 (1秒) 後，再次遞迴呼叫自己</span>
+
+label = Label(root, fg="green")
+label.pack()
+count()                               <span class="comment"># 啟動計時</span></pre>
+
+    <h4>方法二：利用 threading 多執行緒核心 Timer (支援帶參數傳遞，講義第1222頁)</h4>
+    <pre>from threading import Timer
+
+t = None
+counter = 1
+
+def change_time(a, b):
+    global counter, t
+    counter += 1
+    labelText.set(str(counter))
+    <span class="comment"># 每一秒在新執行緒中重複建立並啟動計時器，同時將參數累加傳入</span>
+    t = Timer(1, change_time, [a+1, b+1])
+    print(f"目前參數狀態 A: {a+1}, B: {b+1}")
+    t.start()
+
+def pause():
+    global t
+    t.cancel()                        <span class="comment"># 強制關閉並取消定時器執行緒，避免程式關閉後背後還在跑</span>
+    root.destroy()
+
+root = Tk()
+labelText = StringVar()
+labelText.set(str(counter))
+Label(root, textvariable=labelText).pack()
+Button(root, text="安全退出並關閉執行緒", command=pause).pack()
+
+t = Timer(1, change_time, [1, 2])     <span class="comment"># 初始建立：1秒後執行 change_time，傳入引數 [1, 2]</span>
+t.start()                             <span class="comment"># 啟動執行緒</span>
+root.mainloop()</pre>
+
+    <h2>CH04. Entry 單行文字輸入框與 Text 多行文字區塊 (含 Scrollbar 完美結合)</h2>
+    <p>輸入框是用戶提交資料的核心。單行文字使用 <code>Entry</code>，多行文本與大片文章展示則使用 <code>Text</code>，且大文本務必搭配 <code>Scrollbar</code> 捲動軸以防超出視窗。</p>
+    
+    <h3>6.1 Entry 輸入框讀寫與密碼遮罩設定</h3>
+    <pre><span class="comment"># 核心概念：Entry 無法直接用 text 參數給予預設值，一定要透過 textvariable 綁定</span>
+e = StringVar()
+entry = Entry(root, textvariable=e)
+e.set("請在此輸入文字...")              <span class="comment"># 使用 set() 寫入初始預設文字</span>
+entry.pack()
+
+print(entry.get())                    <span class="comment"># 方式一：直接從元件本體 get() 讀取內容</span>
+print(e.get())                        <span class="comment"># 方式二：從綁定的字串變數 get() 讀取內容（完全相同）</span>
+
+<span class="comment"># 實用特殊設定</span>
+entry["state"] = "readonly"           <span class="comment"># 設定輸入框為「唯讀狀態」，不可輸入修改</span>
+entry["show"] = "*"                   <span class="comment"># 設定字元遮罩符號，任何輸入自動變 * 號（密碼框專用）</span></pre>
+
+    <h3>6.2 Text 多行文本組件基礎</h3>
+    <p>Text 組件的座標起點是 <code>"1.0"</code>（代表第 1 列、第 0 個字元位置）。</p>
+    <pre>t = Text(root, height=10, width=40)
+for i in range(5):
+    t.insert("1.0", str(i) + " 新的一行\n") <span class="comment"># 一直從第一列最開頭插入新字串，舊內容會被往下推</span>
+
+print(t.get("1.0", "1.2"))            <span class="comment"># 讀取並列印出第一列的前兩個字元</span>
+print(t.get("1.0", END))              <span class="comment"># 讀取並列印出從頭到結尾(END)的所有文字內容</span>
+t.pack()</pre>
+
+    <h3>6.3 Text 與 Scrollbar (捲動軸) 雙向綁定標準黃金模板</h3>
+    <p>要讓捲動軸和文字區完美連動，兩者必須互相註冊。請牢記以下對稱綁定步驟：</p>
+    <pre>s = Scrollbar(root)                    <span class="comment"># 1. 建立捲動軸</span>
+t = Text(root, height=5, width=20)     <span class="comment"># 2. 建立文字多行區</span>
+
+s.pack(side=RIGHT, fill=Y)             <span class="comment"># 3. 捲動軸放在右側，並且垂直方向填滿</span>
+t.pack(side=LEFT, fill=BOTH, expand=1) <span class="comment"># 4. 文字區放在左側，完全填滿剩餘空間</span>
+
+s.config(command=t.yview)              <span class="comment"># 5. 綁定動作：當拉動捲動軸時，改變 Text 的 y 軸視角</span>
+t.config(yscrollcommand=s.set)         <span class="comment"># 6. 綁定動作：當在 Text 內滾動滑鼠或換行時，同步更新捲動軸滑塊位置</span>
+
+long_string = "大量長文本內容..."
+t.insert("1.0", long_string)
+mainloop()</pre>
+
+    <h2>CH05. Radiobutton 單選按鈕群組設計與大氣 Button 樣式切換</h2>
+    <p>單選按鈕用於多選一的場景。其核心邏輯是：<b>同一個群組內的所有 Radiobutton 物件，必須綁定同一個 <code>variable</code>，但是設定各不相同的 <code>value</code>。</b></p>
+    
+    <h3>7.1 建立單選按鈕群組與取得選取值</h3>
+    <pre>v = IntVar()                           <span class="comment"># 建立一個共享的整數變數</span>
+v.set(0)                               <span class="comment"># 預設選中 value=0 的那個選項</span>
+
+def show_choice():
+    print("目前使用者選中的項目編號是:", v.get())
+
+arr = ["電子系", "電機系", "資工系"]
+for i in range(3):
+    Radiobutton(root,
+                variable = v,          <span class="comment"># 關鍵點：共享同一個變數</span>
+                value = i,             <span class="comment"># 關鍵點：每個選項的真實數值不同</span>
+                text = arr[i],         <span class="comment"># 畫面上顯示的文字</span>
+                command = show_choice  <span class="comment"># 點擊時即時觸發</span>
+    ).pack()</pre>
+
+    <h3>7.2 經典雷區：多個獨立 Radiobutton 群組連動錯誤與正確解法</h3>
+    <div class="tip"><strong>多群組錯誤原因：</strong>如果畫面上有「性別」和「科系」兩組完全不相關的單選題，但兩者都使用了同一個 <code>v = IntVar()</code>，那麼點擊性別時，科系也會莫名其妙被取消或連動變更。</div>
+    <pre><span class="comment"># 正確解法：宣告多個獨立的 Var 變數 (講義第13頁)</span>
+v1 = IntVar(); v1.set(0)               <span class="comment"># 第一組專用變數</span>
+v2 = IntVar(); v2.set(0)               <span class="comment"># 第二組專用變數</span>
+
+<span class="comment"># 建立第一組 (系所群組)</span>
+for i in range(3):
+    Radiobutton(root, variable=v1, value=i, text="系所選項"+str(i)).pack()
+    
+<span class="comment"># 建立第二組 (性別/其他群組)</span>
+for i in range(3):
+    Radiobutton(root, variable=v2, value=i, text="其他群組選項"+str(i)).pack()</pre>
+
+    <h3>7.3 indicatoron 參數應用 — 將單選鈕偽裝成高質感一般按鈕</h3>
+    <p>設定 <code>indicatoron=0</code> 後，傳統的小圓圈會消失。元件外觀會直接變成普通按鈕，當被選中時會保持<b>凹陷狀態 (SUNKEN)</b>，非常適合用於導覽列或頁籤切換設計。</p>
+    <pre>v = IntVar(); v.set(0)
+for i in range(3):
+    Radiobutton(root, 
+                variable=v, 
+                value=i, 
+                indicatoron=0,         <span class="comment"># 關閉傳統圓圈指針指示符號</span>
+                text="頁籤 " + str(i)
+    ).pack(fill=X)</pre>
+
+    <div class="homework-box">
+        <h4>課堂作業練習：CH05_學生資料儲存與表單實體檔案輸出</h4>
+        <p>設計一個完整的表單填寫視窗，包含兩個 <code>Entry</code> 輸入框（分別預設顯示學號 <code>1103305142</code> 與姓名提示 <code>輸入姓名</code>），以及一組含有三個科系選項的 <code>Radiobutton</code>（預設選中電子系）。</p>
+        <p>視窗下方放置一個 <code>click!</code> 按鈕，當點擊時，會自動在程式同目錄下建立或複寫一個名為 <code>result.txt</code> 的文字檔案，並將畫面上目前的學號、姓名、被選中的科系文字，整齊列印輸出至檔案中。</p>
+        <p><strong>提示（檔案開放語法）：</strong><code>file_out = open("result.txt", "w")</code> 搭配 <code>print(e1.get(), e.get(), arr[v.get()], file=file_out)</code>。</p>
+    </div>
+
+    <h2>CH06. OptionMenu 下拉選單組件與頂層高階 Menubar 視窗選單設計</h2>
+    <p>當選項過多、不適合用 Radiobutton 鋪滿畫面時，<code>OptionMenu</code>（下拉選單）是最佳的空間節省方案。</p>
+    
+    <h3>8.1 OptionMenu 下拉選單兩種宣告方式</h3>
+    <pre><span class="comment"># 宣告型式一：直接列出所有選項字串</span>
+v1 = StringVar(root)
+v1.set("電子系")                         <span class="comment"># 設定初始被選中值</span>
+om1 = OptionMenu(root, v1, "電子系", "電機系", "資工系")
+om1.pack()
+
+<span class="comment"># 宣告型式二：利用 Python 串列展開語法 * (極度實用，講義第2頁)</span>
+department = ["電子系", "電機系", "資工系", "機械系", "化工系"]
+v2 = StringVar(root)
+v2.set(department[0])
+om2 = OptionMenu(root, v2, *department) <span class="comment"># * 號會自動將串列解包為個別的參數傳入</span>
+om2.pack()</pre>
+
+    <h3>8.2 即時事件回呼 (選取選單時直接觸發函式)</h3>
+    <p>OptionMenu 的 <code>command</code> 參數綁定之函式，<b>系統會自動附帶傳入一個「目前被選中項目的字串值」參數</b>，因此函式必須宣告一個接收參數。</p>
+    <pre>def on_select_change(selected_value):
+    print("用戶剛剛選擇切換到了:", selected_value)
+
+om = OptionMenu(root, v, *department, command=on_select_change)
+om.pack()</pre>
+
+    <h3>8.3 視窗頂部高階選單列 (Menubar) 標準架構模板</h3>
+    <p>這是在專業桌面軟體最頂層看見的「檔案(File)」、「說明(Help)」下拉階層選單組合。基本原理是主選單列下挂載多個子 Menu 物件。</p>
+    <pre>def About():
+    print("這是選單程式設計的範例說明")
+
+root = Tk()
+
+<span class="comment"># 1. 初始化最頂層的方塊總選單列主物件</span>
+menubar = Menu(root)
+
+<span class="comment"># 2. 初始化第一個下拉清單物件 (File 內部選單)</span>
+filemenu = Menu(menubar, tearoff=0) <span class="comment"># tearoff=0 可以關閉 Tkinter 預設的選單分離線</span>
+filemenu.add_command(label="Open...", command=lambda: print("開啟檔案..."))
+filemenu.add_command(label="Exit", command=root.quit)
+<span class="comment"># 將 File 下拉清單以級聯 (cascade) 方式掛載到總選單列上</span>
+menubar.add_cascade(label="File", menu=filemenu)
+
+<span class="comment"># 3. 初始化第二個下拉清單物件 (Help 內部選單)</span>
+helpmenu = Menu(menubar, tearoff=0)
+helpmenu.add_command(label="About...", command=About)
+menubar.add_cascade(label="Help", menu=helpmenu)
+
+<span class="comment"># 4. 最重要的一步：將配置好的總選單列物件反向指派給 root 主視窗</span>
+root["menu"] = menubar
+root.mainloop()</pre>
+
+    <h3>8.4 互動式 filedialog 系統開檔對話框</h3>
+    <p>點選選單觸發時，跳出 Windows 原生的選擇檔案視窗，並過濾特定的副檔名，最終取得完整的檔案絕對路徑。</p>
+    <pre>from tkinter import *
+from tkinter import filedialog
+
+<span class="comment"># 開檔函式</span>
+def OpenFile():
+    <span class="comment"># 參數說明：initialdir 預設開啟目錄, title 對話框上方名稱, filetypes 過濾檔案格式</span>
+    file_path = filedialog.askopenfilename(
+        initialdir = "C:/",
+        title = "請選擇您的圖片檔案",
+        filetypes = (("jpeg 檔案","*.jpg"), ("全部檔案","*.*"))
+    )
+    if file_path:
+        print("使用者選擇的檔案路徑為：", file_path)
+
+<span class="comment"># 彈出說明訊息的函式</span>
+def About():
+    print("This is a simple example of a menu")
+
+root = Tk()                      <span class="comment"># 建立視窗</span>
+menu = Menu(root)                <span class="comment"># 初始化主選單列主物件</span>
+
+<span class="comment"># 初始化第一個下拉清單物件 (File 內部選單)</span>
+filemenu = Menu(menu, tearoff=0)
+<span class="comment"># 新增 Open... 與 Exit 選項至 File 方塊選項中，並綁定對應的函式</span>
+filemenu.add_command(label="Open...", command=OpenFile)
+filemenu.add_command(label="Exit", command=root.quit)
+<span class="comment"># 將 File 下拉清單以級聯 (cascade) 方式掛載到總選單列上</span>
+menu.add_cascade(label="File", menu=filemenu)
+
+<span class="comment"># 初始化第二個下拉清單物件 (Help 內部選單)</span>
+helpmenu = Menu(menu, tearoff=0)
+helpmenu.add_command(label="About...", command=About)
+menu.add_cascade(label="Help", menu=helpmenu)
+
+root["menu"] = menu              <span class="comment"># 將配置好的總選單列物件指派給 root 主視窗</span>
+root.mainloop()</pre>
+
+    <div class="homework-box">
+        <h4>課堂作業練習：CH06_自動生成 50 個選項的下拉選單</h4>
+        <p>請建立一個 <code>OptionMenu</code> 下拉選單組件。要求：<b>不可手動逐字輸入選項</b>，必須在程式中透過 <code>for</code> 迴圈與串列的 <code>append()</code> 方法，全自動化動態生成 <code>0 ~ 49</code> 共 50 個整數數字選項，並且當使用者點選任意數字時，終端機/主控台能即時列印出該數值。</p>
+    </div>
+
+    <div class="special-box">
+        <h2>CH07. 專題實戰必備：進階與隱藏版技巧 (針對作業03~11)</h2>
+        <p>老師在作業中加入了許多遊戲與資料庫機制，以下是完成這些作業必須掌握的進階語法：</p>
+
+        <h3>9.1 鍵盤 Enter 鍵綁定 (作業08、09 打字遊戲必備)</h3>
+        <p>不使用按鈕，而是透過鍵盤輸入完成後直接按下 <code>Enter</code> 鍵來觸發對答案的檢查。</p>
+        <pre><span class="comment"># 被綁定的事件函式必須接收一個 event 參數</span>
+def check_answer(event):
+    user_input = entry.get()
+    if user_input == "apple":
+        print("答對了！")
+        entry.delete(0, END)  <span class="comment"># 答對後自動清空輸入框</span>
+
+entry = Entry(root)
+entry.pack()
+<span class="comment"># &lt;Return&gt; 代表鍵盤上的 Enter 鍵</span>
+entry.bind("&lt;Return&gt;", check_answer) </pre>
+
+        <h3>9.2 畫面不卡死！非同步延遲機制 (作業05、06、07 必備)</h3>
+        <p>在配對遊戲中（翻錯要等一秒蓋回去）或打地鼠遊戲中（地鼠自動消失），<b>絕對不能使用 <code>time.sleep()</code></b>，否則整個視窗會當機死當。必須使用 Tkinter 的 <code>after()</code> 方法。</p>
+        <pre><span class="comment"># 配對遊戲：翻錯牌時，延遲 500 毫秒(0.5秒)後蓋回，期間不卡死畫面</span>
+def flip_back(btn1, btn2):
+    btn1.config(text="")
+    btn2.config(text="")
+
+<span class="comment"># 假設玩家按錯了...</span>
+<span class="comment"># 延遲 500 毫秒後，執行 flip_back 函式，並傳入 btnA, btnB 作為參數</span>
+root.after(500, flip_back, btnA, btnB)</pre>
+
+        <h3>9.3 動態清空畫面上的所有元件 (作業04 過關擴大九宮格必備)</h3>
+        <p>當遊戲進入下一關，原本的 3x3 九宮格要變成 4x4，你必須先把舊的按鈕全部清除乾淨再重新排列。</p>
+        <pre><span class="comment"># 取得 root (或某個 Frame) 內部的所有子元件，並將它們全數銷毀</span>
+for widget in root.winfo_children():
+    widget.destroy()
+
+<span class="comment"># 銷毀後即可重新跑 for 迴圈建立新的 4x4 網格</span></pre>
+
+        <h3>9.4 Entry 的直接清空與寫入 (作業10、11 資料表 CRUD 必備)</h3>
+        <p>在製作「新增」或「上一筆/下一筆」功能時，我們需要頻繁清空輸入框並塞入新資料。除了用 <code>StringVar()</code>，最直接的方法是使用 <code>delete</code> 與 <code>insert</code>。</p>
+        <pre>entry = Entry(root)
+entry.pack()
+
+<span class="comment"># 1. 清空輸入框 (從第 0 個字元刪除到最後 END)</span>
+entry.delete(0, END)
+
+<span class="comment"># 2. 寫入新資料 (在第 0 個位置插入字串)</span>
+entry.insert(0, "王大明")</pre>
+
+        <h3>9.5 提示對話框 Messagebox (遊戲結束 / 錯誤警告)</h3>
+        <p>當打地鼠時間到，或圈圈叉叉有人獲勝時，彈出一個標準的系統提示視窗。</p>
+        <pre>from tkinter import messagebox
+
+<span class="comment"># 資訊提示框 (標題, 內容)</span>
+messagebox.showinfo("遊戲結束", "玩家0 獲得勝利！")
+
+<span class="comment"># 錯誤警告框</span>
+messagebox.showerror("錯誤", "查無此學號資料！")
+
+<span class="comment"># 選擇對話框 (回傳 True / False)</span>
+result = messagebox.askyesno("確認", "您確定要刪除這筆資料嗎？")
+if result:
+    print("執行刪除...")</pre>
+    </div>
+
+</div>
+
+</body>
+</html>
